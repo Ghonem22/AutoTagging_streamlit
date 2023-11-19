@@ -66,7 +66,7 @@ def load_response(base64_image):
 def display_logo(logo_path):
     """ Display the logo at the top of the app. """
     logo = Image.open(logo_path)
-    st.image(logo, width=100) # Adjust width as needed
+    st.image(logo, width=130) # Adjust width as needed
 
 def convert_to_base64(image):
     """ Convert the PIL image to a base64 string. """
