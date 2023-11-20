@@ -4,13 +4,54 @@ import base64
 from PIL import Image
 import io
 
+
+def display_sidebar_logo(logo_path, company_name):
+    """ Display the logo and company name in the sidebar. """
+    with st.sidebar:
+        logo = Image.open(logo_path)
+        st.image(logo)  # Adjust width as needed
+        st.markdown(f"## {company_name}")
+
 def main():
+    # Sidebar navigation
+
+    st.set_page_config(page_title="TwentyToo", page_icon="logo_icon.ico")
+
+
+
+
+    display_sidebar_logo('logo.png', 'TwentToo')
+    st.sidebar.title("Projects")
+
+    projects = {
+        "Auto-Tagging": "autotagging_app",
+        "Project 2": "project2_app",
+        # Add more projects as needed
+    }
+
+    for project_name in projects:
+        if st.sidebar.button(project_name):
+            st.session_state.current_project = project_name
+
+    if "current_project" not in st.session_state:
+        st.session_state.current_project = "Auto-Tagging"
+
+    # Display the selected project
+    project_function_name = projects[st.session_state.current_project]
+    globals()[project_function_name]()
+
+
+
+
+def project2_app():
+    st.title("Project 2 template")
+
+def autotagging_app():
     st.title("Auto Tag Your Fashion Catalog")
     if 'display_language' not in st.session_state:
         st.session_state['display_language'] = 'EN'
 
-    # Display your logo
-    display_logo('logo.png')
+
 
     # Custom CSS to change font size and other styles
     st.markdown("""
