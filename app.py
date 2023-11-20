@@ -120,9 +120,18 @@ def display_logo(logo_path):
 
 def convert_to_base64(image):
     """ Convert the PIL image to a base64 string. """
-    buffer = io.BytesIO()
-    image.save(buffer, format="JPEG")
-    return base64.b64encode(buffer.getvalue()).decode()
+    try:
+        buffer = io.BytesIO()
+
+        # Convert image to RGB if not in RGB mode
+        if image.mode != 'RGB':
+            image = image.convert('RGB')
+
+        image.save(buffer, format="JPEG")
+        return base64.b64encode(buffer.getvalue()).decode()
+    except Exception as e:
+        st.error(f"Error processing image: {e}")
+        return None
 
 def send_request(base64_image):
     """ Send the POST request to the endpoint and return the response. """
@@ -150,6 +159,16 @@ def resize_image(image):
 
 def visualize_tags(tags, title_key):
     """ Visualize the tags with improved design. """
+    # Custom CSS for increased line spacing
+    line_spacing_style = """
+    <style>
+    .tag-line {
+        line-height: 2;  /* Adjust the line height as needed */
+    }
+    </style>
+    """
+    st.markdown(line_spacing_style, unsafe_allow_html=True)
+
     if title_key in tags:
         title_class = "rtl" if st.session_state['display_language'] == 'AR' else ""
         st.markdown(f"<h5 class='{title_class}'>{tags[title_key]}</h5>", unsafe_allow_html=True)
@@ -158,7 +177,7 @@ def visualize_tags(tags, title_key):
     tag_class = "rtl" if st.session_state['display_language'] == 'AR' else ""
     st.markdown(f"<h5 class='{tag_class}'>Tags:</h5>", unsafe_allow_html=True)
     for key, value in tags.items():
-        st.markdown(f"<div class='{tag_class}'>- <b>{key}</b>: {value}</div>", unsafe_allow_html=True)
+        st.markdown(f"<div class='{tag_class} tag-line'>- <b>{key}</b>: {value}</div>", unsafe_allow_html=True)
 
 if __name__ == "__main__":
     main()
