@@ -24,7 +24,7 @@ def main():
     st.sidebar.title("Services")
 
     projects = {
-        "Auto-Tagging": "autotagging_app",
+        "Auto Tagging": "autotagging_app",
         "Neural Search": "NeuralSearch",
         "Similarity": "Similarity"
         # Add more projects as needed
@@ -35,7 +35,7 @@ def main():
             st.session_state.current_project = project_name
 
     if "current_project" not in st.session_state:
-        st.session_state.current_project = "Auto-Tagging"
+        st.session_state.current_project = "Auto Tagging"
 
     # Display the selected project
     project_function_name = projects[st.session_state.current_project]
