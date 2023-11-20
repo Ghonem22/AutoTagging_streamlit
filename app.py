@@ -10,7 +10,7 @@ def display_sidebar_logo(logo_path, company_name):
     with st.sidebar:
         logo = Image.open(logo_path)
         st.image(logo)  # Adjust width as needed
-        st.markdown(f"## {company_name}")
+        # st.markdown(f"## {company_name}")
 
 def main():
     # Sidebar navigation
@@ -21,7 +21,7 @@ def main():
 
 
     display_sidebar_logo('logo.png', 'TwentToo')
-    st.sidebar.title("Projects")
+    st.sidebar.title("Services")
 
     projects = {
         "Auto-Tagging": "autotagging_app",
