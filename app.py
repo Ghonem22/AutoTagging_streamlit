@@ -25,7 +25,8 @@ def main():
 
     projects = {
         "Auto-Tagging": "autotagging_app",
-        "Project 2": "project2_app",
+        "Neural Search": "NeuralSearch",
+        "Similarity": "Similarity"
         # Add more projects as needed
     }
 
@@ -43,8 +44,11 @@ def main():
 
 
 
-def project2_app():
-    st.title("Project 2 template")
+def NeuralSearch():
+    st.title("Neural Search")
+
+def Similarity():
+    st.title("Similar Items Recommender")
 
 def autotagging_app():
     st.title("Auto Tag Your Fashion Catalog")
