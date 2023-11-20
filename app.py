@@ -28,35 +28,32 @@ def main():
     uploaded_image = st.file_uploader("", type=["png", "jpg", "jpeg"])
 
     if uploaded_image is not None:
-        # Display the uploaded image
-        image = Image.open(uploaded_image)
-        image = resize_image(image)
-        st.image(image, caption='Uploaded Image', use_column_width='always')
-
-        base64_image = convert_to_base64(image)
-        result = load_response(base64_image)
-
-        # Layout for buttons
-        col1, col2 = st.columns(2)
+        # Display the uploaded image and tags side by side
+        col1, col2 = st.columns([3, 2])  # Adjust the column ratio as needed
 
         with col1:
-            if st.button('EN'):
-                st.session_state['display_language'] = 'EN'
-        with col2:
-            if st.button('AR'):
-                st.session_state['display_language'] = 'AR'
+            # Display the uploaded image
+            image = Image.open(uploaded_image)
+            image = resize_image(image)
+            st.image(image, caption='Uploaded Image', use_column_width=True)
 
-        # Conditional display based on the selected language
-        if st.session_state['display_language'] == 'EN':
-            with col1:
+        with col2:
+            # Load and display tags
+            base64_image = convert_to_base64(image)
+            result = load_response(base64_image)
+
+            # Button to switch languages
+            if st.button('AR' if st.session_state['display_language'] == 'EN' else 'EN'):
+                st.session_state['display_language'] = 'AR' if st.session_state['display_language'] == 'EN' else 'EN'
+
+            # Conditional display based on the selected language
+            if st.session_state['display_language'] == 'EN':
                 visualize_tags(result.get('eng_tags', {}), 'Title')
-        elif st.session_state['display_language'] == 'AR':
-            with col2:
+            elif st.session_state['display_language'] == 'AR':
                 ar_tags = result.get('ar_tags', {})
                 if "Title" in ar_tags:
                     ar_tags["العنوان"] = ar_tags.pop("Title")
                 visualize_tags(ar_tags, 'العنوان')
-
 
 @st.cache_data
 def load_response(base64_image):
