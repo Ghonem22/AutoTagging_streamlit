@@ -43,17 +43,22 @@ def main():
             result = load_response(base64_image)
 
             # Button to switch languages
-            if st.button('AR' if st.session_state['display_language'] == 'EN' else 'EN'):
-                st.session_state['display_language'] = 'AR' if st.session_state['display_language'] == 'EN' else 'EN'
+            button_label = 'EN' if st.session_state['display_language'] == 'AR' else 'AR'
+            if st.button(button_label):
+                new_language = 'AR' if st.session_state['display_language'] == 'EN' else 'EN'
+                st.session_state['display_language'] = new_language
 
             # Conditional display based on the selected language
             if st.session_state['display_language'] == 'EN':
                 visualize_tags(result.get('eng_tags', {}), 'Title')
+                st.session_state['display_language'] = 'AR'
             elif st.session_state['display_language'] == 'AR':
                 ar_tags = result.get('ar_tags', {})
                 if "Title" in ar_tags:
                     ar_tags["العنوان"] = ar_tags.pop("Title")
                 visualize_tags(ar_tags, 'العنوان')
+                st.session_state['display_language'] = 'EN'
+
 
 @st.cache_data
 def load_response(base64_image):
