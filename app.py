@@ -21,6 +21,9 @@ def main():
         .image-upload {
             text-align: center;
         }
+        .rtl {
+            direction: rtl;
+        }
         </style>
         """, unsafe_allow_html=True)
 
@@ -103,12 +106,14 @@ def resize_image(image):
 def visualize_tags(tags, title_key):
     """ Visualize the tags with improved design. """
     if title_key in tags:
-        st.markdown(f"##### {tags[title_key]}")
+        title_class = "rtl" if st.session_state['display_language'] == 'AR' else ""
+        st.markdown(f"<h5 class='{title_class}'>{tags[title_key]}</h5>", unsafe_allow_html=True)
         del tags[title_key]  # Remove the title to avoid duplication
 
-    st.markdown("##### Tags:")
+    tag_class = "rtl" if st.session_state['display_language'] == 'AR' else ""
+    st.markdown(f"<h5 class='{tag_class}'>Tags:</h5>", unsafe_allow_html=True)
     for key, value in tags.items():
-        st.markdown(f"- **{key}**: {value}", unsafe_allow_html=True)
+        st.markdown(f"<div class='{tag_class}'>- <b>{key}</b>: {value}</div>", unsafe_allow_html=True)
 
 if __name__ == "__main__":
     main()
